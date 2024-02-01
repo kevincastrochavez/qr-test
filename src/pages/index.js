@@ -7,21 +7,25 @@ export default function Home() {
   const [data, setData] = useState('No result');
   const [visible, setVisible] = useState(false);
 
+  const handleScan = (data) => {
+    if (data) {
+      console.log('Result: ', data);
+    }
+  };
+
+  const handleError = (err) => {
+    console.error(err);
+  };
+
   return (
     <div className='container'>
       <QRCodeSVG value='8237483ughjbqusyr36y' />
 
       {visible && (
         <QrReader
-          onResult={(result, error) => {
-            if (!!result) {
-              setData(result?.text);
-            }
-
-            if (!!error) {
-              console.info(error);
-            }
-          }}
+          delay={500}
+          onError={handleError}
+          onScan={handleScan}
           style={{ width: '100%' }}
         />
       )}
