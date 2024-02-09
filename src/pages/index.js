@@ -1,37 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Html5QrcodeScanner } from 'html5-qrcode';
 
 import { QRCodeSVG } from 'qrcode.react';
 
 export default function Home() {
-  const [data, setData] = useState('No result');
-  const [visible, setVisible] = useState(false);
+  const [data, setData] = useState(null);
 
-  const handleScan = (data) => {
-    if (data) {
-      console.log('Result: ', data);
-    }
-  };
+  useEffect(() => {
+    const onScanSuccess = (decodedText) => {
+      scanner.clear();
+      setData(decodedText);
+    };
 
-  const handleError = (err) => {
-    console.error(err);
-  };
+    const onScanError = (errorMessage) => {
+      console.log(errorMessage);
+    };
+
+    const scanner = new Html5QrcodeScanner('reader', {
+      fps: 5,
+      qrbox: {
+        width: 250,
+        height: 250,
+      },
+    });
+
+    scanner.render(onScanSuccess, onScanError);
+  }, []);
 
   return (
     <div className='container'>
       <QRCodeSVG value='8237483ughjbqusyr36y' />
 
-      {/* {visible && (
-        <QrReader
-          delay={500}
-          onError={handleError}
-          onScan={handleScan}
-          style={{ width: '100%' }}
-        />
-      )}
+      {data ? <div>{data}</div> : <div id='reader'></div>}
 
-      <button onClick={() => setVisible(true)}>Scan me</button>
-
-      <p>{data}</p> */}
+      <p>{data}</p>
     </div>
   );
 }
