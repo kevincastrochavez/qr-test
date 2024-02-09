@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { QRCodeSVG } from 'qrcode.react';
-import { QrReader } from 'react-qr-reader';
 
 export default function Home() {
   const [data, setData] = useState('No result');
@@ -21,7 +20,7 @@ export default function Home() {
     <div className='container'>
       <QRCodeSVG value='8237483ughjbqusyr36y' />
 
-      {visible && (
+      {/* {visible && (
         <QrReader
           delay={500}
           onError={handleError}
@@ -32,7 +31,7 @@ export default function Home() {
 
       <button onClick={() => setVisible(true)}>Scan me</button>
 
-      <p>{data}</p>
+      <p>{data}</p> */}
     </div>
   );
 }
